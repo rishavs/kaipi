@@ -1,14 +1,17 @@
 'use strict';
 const koa = require('koa')
 const logger = require('koa-logger')
-
-const indexRoutes = require('./routes/index');
+const serve = require('koa-static-server')
+const apiRoutes = require('./routes/api');
 
 const PORT = process.env.PORT || 1337;
 const app = new koa()
 
 app.use(logger())
-app.use(indexRoutes.routes());
+
+app.use(apiRoutes.routes());
+app.use(serve({rootDir: 'src/public'}))
+
 
 
 
