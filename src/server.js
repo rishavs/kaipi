@@ -1,6 +1,13 @@
 'use strict';
+require('dotenv').config()
+
 const koa = require('koa')
 const logger = require('koa-logger')
+var dbconfig = require('../knexfile.js')['development'];
+const knex = require('knex')(dbconfig);
+
+knex.table('posts').first().then(function(row) { console.log(row); });
+
 const serve = require('koa-static-server')
 const apiRoutes = require('./routes/api');
 
