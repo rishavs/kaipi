@@ -6,7 +6,7 @@ const logger = require('koa-logger')
 var dbconfig = require('../knexfile.js')['development'];
 const knex = require('knex')(dbconfig);
 
-knex.table('posts').first().then(function(row) { console.log(row); });
+knex.raw("select 'Connected to Database!' as status").then(function(result) { console.log(result.rows); });
 
 const serve = require('koa-static-server')
 const apiRoutes = require('./routes/api');
