@@ -1,0 +1,25 @@
+name: Kaipi
+version: 0.1.0
+
+authors:
+  - your-name-here <your-email-here>
+
+targets:
+    cove:
+        main: src/kaipi.cr
+
+dependencies:
+    kemal:
+        github: kemalcr/kemal
+    pg:
+        github: will/crystal-pg
+    granite:
+        github: amberframework/granite
+    dotenv:
+        github: gdotdesign/cr-dotenv   
+    jwt:
+        github: crystal-community/jwt
+
+crystal: 0.25.1
+
+license: MIT
