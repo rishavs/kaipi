@@ -9,17 +9,11 @@ targets:
         main: src/kaipi.cr
 
 dependencies:
-    kemal:
-        github: kemalcr/kemal
     pg:
         github: will/crystal-pg
-    granite:
-        github: amberframework/granite
     dotenv:
-        github: gdotdesign/cr-dotenv   
-    jwt:
-        github: crystal-community/jwt
+        github: gdotdesign/cr-dotenv
 
-crystal: 0.25.1
+crystal: 0.35.0
 
 license: MIT
