@@ -2,10 +2,10 @@ name: Kaipi
 version: 0.1.0
 
 authors:
-  - your-name-here <your-email-here>
+  - Rishav Sharan <rishav.sharan@live.com>
 
 targets:
-    cove:
+    kaipi:
         main: src/kaipi.cr
 
 dependencies:
@@ -14,6 +14,6 @@ dependencies:
     dotenv:
         github: gdotdesign/cr-dotenv
 
-crystal: 0.35.0
+crystal: 0.35.1
 
 license: MIT
