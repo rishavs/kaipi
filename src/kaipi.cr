@@ -51,6 +51,13 @@ module Kaipi
         # HTTP::StaticFileHandler.new("."),
     ]) do |ctx|
         ctx.response.content_type = "text/html; charset=UTF-8"
+
+        name = env.params.url["name"]
+        navbar = ECR.render "src/views/components/navbar.ecr"
+        sidebar = ECR.render "src/views/components/sidebar.ecr"
+
+        render "src/views/pages/home.ecr", "src/views/layout.ecr"
+        
         ctx.response.print Kaipi::Layout.new(content).to_s
     end
 
