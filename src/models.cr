@@ -1,52 +1,42 @@
 module Kaipi
-    
-    class Post < Granite::Base
-
-        adapter pg
-
-        field unqid :   String
-        field! title :   String
-        field content : String
-        field link :    String
-        field! author :  String
-        field thumb :   String
-        timestamps
-
-        before_create :assign_unqid
-        def assign_unqid
-            @unqid = UUID.random.to_s
+    class Comment
+        property unqid : String
+        property parent_id : String
+        property level : Int32
+        property post_id : String
+        property content : String
+        property author_id : String
+        property author_nick : String
+        property author_flair : String | Nil
+        property children_ids = [] of String
+      
+        def initialize(@unqid, @level,  @post_id, @parent_id, @content, @author_id, @author_nick)
         end
-
-        validate_uniqueness :unqid
-        validate_min_length :title, 3
-        validate_max_length :title, 255
-
     end
 
-    class User < Granite::Base
-
-        adapter pg
-
-        field unqid :       String
-        field! username :    String
-        field! password :    String
-        timestamps
-
-        before_create :assign_unqid
-        def assign_unqid
-            @unqid = UUID.random.to_s
+    class Post
+        property unqid : String
+        property title : String
+        property link : Int32
+        property content : String
+        property author_id : String
+        property author_nick : String
+        property author_flair : String | Nil
+        property children_ids = [] of String
+      
+        def initialize(@unqid, @title,  @link, @content, @author_id, @author_nick, @author_flair)
         end
-
-        before_create :hash_pass
-        def hash_pass
-            @password = Crypto::Bcrypt::Password.create(password).to_s
-        end
-        
-        validate_uniqueness :unqid
-        validate_uniqueness :username
-        validate_min_length :username, 3
-        validate_max_length :username, 255
-        validate_not_blank  :password
-
     end
+
+    class User
+        property unqid : String
+        property email : String
+        property password : String
+        property nickname : Int32
+        property flair : String
+      
+        def initialize(@unqid, @email,  @password, @nickname, @flair)
+        end
+    end
+
 end
