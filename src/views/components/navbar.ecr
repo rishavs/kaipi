@@ -1,71 +1,85 @@
-<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-            </a>
-
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/home">
-                    Home
-                </a>
-
-                <a class="navbar-item" href="/documntation">
-                    Documentation
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">docs</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-expanded="false">
+                        Dropdown
                     </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="/about">
-                            About
-                        </a>
-                        <a class="navbar-item" href="/jobs">
-                            Jobs
-                        </a>
-                        <a class="navbar-item" href="/contact">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" href="/report">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/action">Action</a></li>
+                        <li><a class="dropdown-item" href="/another">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="something">Something else here</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+                <button type="button" class="btn btn-outline-light">Search</button>
+                <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split"
+                    data-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item" href="#">Advanced Search</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                </ul>
             </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-info">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light">
-                            Log in
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <button class="btn btn-outline-success" type="submit">Login</button>
         </div>
     </div>
 </nav>
-<div class="tabs">
-    <ul>
-        <li class="is-active"><a>Pictures</a></li>
-        <li><a>Music</a></li>
-        <li><a>Videos</a></li>
-        <li><a>Documents</a></li>
-    </ul>
-</div>
+<nav class="navbar navbar-dark bg-info">
+    <div class="container">
+        <ul class="nav nav-pills container">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">All</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Technology</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Entertainment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Nature</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Gaming</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Lifestyle</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Offbeat</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">World</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Politics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Business</a>
+            </li>
+        </ul>
+    </div>
+</nav>

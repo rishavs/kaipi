@@ -21,16 +21,16 @@ module Kaipi
     Dotenv.load
     puts "Initializing Database..."
 
-    DATA = DB.open ENV["DATABASE_URL"]
+    # DATA = DB.open ENV["DATABASE_URL"]
     
-    cnn_time = DATA.scalar "SELECT NOW()"
-    puts "Connected to DB at: #{cnn_time}"
+    # cnn_time = DATA.scalar "SELECT NOW()"
+    # puts "Connected to DB at: #{cnn_time}"
 
     server = HTTP::Server.new([
         HTTP::ErrorHandler.new,
         HTTP::LogHandler.new,
         HTTP::CompressHandler.new,
-        # HTTP::StaticFileHandler.new("."),
+        HTTP::StaticFileHandler.new(public_dir = "./public", fallthrough = true, directory_listing = false),
     ]) do |ctx|
         ctx.response.content_type = "text/html; charset=UTF-8"
         Router.run (ctx)

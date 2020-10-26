@@ -24,16 +24,17 @@ module Kaipi
     class Router
         def self.run(ctx)
             route = Route.new(ctx.request.path)
-            navbar = Navbar.render(ctx)
+            navbar = Navbar.render()
 
             case {route.resource, route.identifier, route.verb}
             when {"about", "", ""}
                 # Cove::Misc.about(ctx)
-                cnn_time = DATA.scalar "SELECT NOW()"
+                # cnn_time = DATA.scalar "SELECT NOW()"
 
-                sidebar = ECR.render "src/views/components/sidebar.ecr"
+                sidebar = Sidebar.render()
+                # sidebar = ECR.render "src/views/components/sidebar.ecr"
                 page = About.render(ctx)
-                view = Layout.render(navbar, page)
+                view = Layout.render(navbar, page, sidebar)
                 # view = Generate.new(navbar, page).to_s
 
             # # Routes for Posts resource
@@ -66,16 +67,17 @@ module Kaipi
             # Catch-all routes    
             when {"", "", ""}
                 # Cove::Posts.list(ctx)
-                cnn_time = DATA.scalar "SELECT NOW()"
-                sidebar = ECR.render "src/views/components/sidebar.ecr"
-                page = ECR.render "src/views/pages/home.ecr"
-                ctx.response.print ECR.render "src/views/layout.ecr"
+                # cnn_time = DATA.scalar "SELECT NOW()"
+
+                sidebar = Sidebar.render()
+                page = Home.render(ctx)
+                view = Layout.render(navbar, page, sidebar)
             else
                 # Cove::Errors.error404(ctx)
-                cnn_time = DATA.scalar "SELECT NOW()"
-                sidebar = ECR.render "src/views/components/sidebar.ecr"
-                page = ECR.render "src/views/pages/error404.ecr"
-                ctx.response.print ECR.render "src/views/layout.ecr"
+                # cnn_time = DATA.scalar "SELECT NOW()"
+                sidebar = nil
+                page = Error.render(404)
+                view = Layout.render(navbar, page, sidebar)
             end
 
             ctx.response.print view

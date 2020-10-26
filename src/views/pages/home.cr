@@ -1,6 +1,6 @@
 module Kaipi
 
-    class About
+    class Home
 
         def self.fetch ()
             # DATA.scalar "SELECT NOW()"
@@ -9,7 +9,7 @@ module Kaipi
         def self.render(ctx)
             data = fetch()
 
-            ECR.render "src/views/pages/about.ecr"
+            ECR.render "src/views/pages/home.ecr"
    
          end
 
