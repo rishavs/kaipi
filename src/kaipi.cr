@@ -14,14 +14,14 @@ require "./routes.cr"
 module Kaipi
     VERSION = "0.1.0"
 
-    SERVERPORT = 3000
+    SERVERPORT = 5000
     SERVERHOST = "0.0.0.0"
         
     puts "Starting the app ..."
     Dotenv.load
     puts "Initializing Database..."
 
-    # DATA = DB.open ENV["DATABASE_URL"]
+    # DATA = DB.open ENV["DATABASE_URL"] 
     
     # cnn_time = DATA.scalar "SELECT NOW()"
     # puts "Connected to DB at: #{cnn_time}"
