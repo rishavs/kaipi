@@ -2,17 +2,17 @@ version: 2.0
 shards:
   db:
     git: https://github.com/crystal-lang/crystal-db.git
-    version: 0.10.0
+    version: 0.10.1
 
   dotenv:
     git: https://github.com/gdotdesign/cr-dotenv.git
-    version: 0.7.0
+    version: 1.0.0
 
   pg:
     git: https://github.com/will/crystal-pg.git
-    version: 0.22.1
+    version: 0.23.2
 
   watch:
     git: https://github.com/danreeves/watch.git
-    version: 1.0.1+git.commit.3246999fa5ea68e534f80df92ad13c928129173c
+    version: 1.0.2+git.commit.34db4db9a6425a564a6a3900438997c8d5e4c536
 

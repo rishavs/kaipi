@@ -33,7 +33,38 @@ module Kaipi
         HTTP::StaticFileHandler.new(public_dir = "./public", fallthrough = true, directory_listing = false),
     ]) do |ctx|
         ctx.response.content_type = "text/html; charset=UTF-8"
-        Router.run (ctx)
+
+        url_parts = ctx.request.path.split("/", limit: 2, remove_empty: true)
+
+        pp! url_resource =     url_parts[0]?
+        pp! url_identifier =   url_parts[1]?
+        pp! url_verb =         url_parts[2]?
+
+        # Render shared views and components
+        navbar = Navbar.render()
+
+        case {url_resource, url_identifier, url_verb}
+
+        when {"about", nil, nil}
+            sidebar = Sidebar.render()
+            # sidebar = ECR.render "src/views/components/sidebar.ecr"
+            page = About.render(ctx)
+            view = Layout.render(navbar, page, sidebar)
+
+        # Catch-all routes    
+        when {nil, nil, nil}
+            sidebar = Sidebar.render()
+            page = Home.render(ctx)
+            view = Layout.render(navbar, page, sidebar)
+        else
+            sidebar = nil
+            page = Error.render(404)
+            view = Layout.render(navbar, page, sidebar)
+        end
+
+        ctx.response.print view
+
+
     end
 
     address = server.bind_tcp SERVERPORT
