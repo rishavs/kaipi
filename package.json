@@ -1,0 +1,22 @@
+{
+    "name": "kaipi",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "npx postcss client/styles.css -o public/tailwind.css"
+    },
+    "author": "Rishav Sharan",
+    "license": "MIT",
+    "dependencies": {
+      "@tailwindcss/line-clamp": "^0.2.0",
+      "autoprefixer": "^10.2.5",
+      "tailwindcss": "^2.0.4"
+    },
+    "devDependencies": {
+      "postcss": "^8.2.9",
+      "postcss-cli": "^8.3.1"
+    }
+  }
+  

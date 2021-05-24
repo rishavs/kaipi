@@ -30,19 +30,16 @@ module Kaipi
     server = HTTP::Server.new([
         APIvsWebHandler.new,
         HTTP::ErrorHandler.new,
-        # HTTP::LogHandler.new,
+        HTTP::LogHandler.new,
         HTTP::CompressHandler.new,
-        # HTTP::StaticFileHandler.new(public_dir = "./public", fallthrough = true, directory_listing = false),
+        HTTP::StaticFileHandler.new(public_dir = "./public", fallthrough = true, directory_listing = false),
     ]) do |ctx|
-        pp! ctx.request.path
+        puts "------------------------------------------------"
         url_parts = ctx.request.path.split('/', limit: 4, remove_empty: true)
 
-        pp! url_resource =     url_parts[0]?
-        pp! url_identifier =   url_parts[1]?
-        pp! url_verb =         url_parts[2]?
-
-        # Render shared views and components
-        navbar = Navbar.render()
+        url_resource =     url_parts[0]?
+        url_identifier =   url_parts[1]?
+        url_verb =         url_parts[2]?
 
         case {ctx.request.method, url_resource, url_identifier, url_verb}
 
@@ -61,20 +58,22 @@ module Kaipi
         # Web Routes
         # -----------------------------------------
         when {"GET", "about", nil, nil}
+            pp! navbar = Navbar.render()
             sidebar = Sidebar.render()
-            # sidebar = ECR.render "src/views/components/sidebar.ecr"
             page = About.render(ctx)
             view = Layout.render(navbar, page, sidebar)
             ctx.response.print view
 
         # Catch-all routes    
         when {"GET", nil, nil, nil}
+            navbar = Navbar.render()
             sidebar = Sidebar.render()
             page = Home.render(ctx)
             view = Layout.render(navbar, page, sidebar)
             ctx.response.print view
 
         else
+            navbar = Navbar.render()
             sidebar = nil
             page = Error.render(404)
             view = Layout.render(navbar, page, sidebar)

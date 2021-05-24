@@ -3,68 +3,68 @@
 
 <head>
     <meta charset="utf-8">
+    <title>Digglu</title>
+    <link
+        href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAOwAAADdAAAAxQAAAPYAAABfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADYAAAD+AAAA/wAAAP8AAAD/AAAAcQAAAAAAAABEAAAAjQAAAE8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAADMAAAA/wAAAP8AAAD/AAAA/wAAAOwAAACfAAAA/gAAAOUAAAD+AAAASwAAAAAAAAAAAAAAAAAAAAAAAABhAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA9QAAAHIAAAADAAAA0AAAAKIAAAAAAAAAAAAAAAAAAAAAAAAAkgAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAM0AAAAAAAAAAAAAAJMAAACUAAAAAAAAAAAAAAAPAAAABgAAAHQAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACwAAAAAQAAABUAAAABAAAAAQAAAAAAAAAAAAAAKQAAAFkAAACrAAAA/wAAAP8HBgX/Dw4O/wAAAP8AAAD/AAAA0QAAAF4AAAA7AAAAAAAAAAAAAAAAAAAAAAAAABMAAAB1AAAA/xwoKv8fLC//FBMT/yUkI/8RGRr/Kjo+/wAAAP8AAAClAAAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAs4a8yv//////8////1t/iP8aJCb////////////S////AAAA7QAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM+h4vH//////3alsf8SGRv/AAAA/2+cp//1////5f///wAAAP8AAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACoAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeQAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAtQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHmCh87/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/Wl6P/zk7WrQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB5tb3//wAAAP8AAAD7AAAA0gAAANYAAADvAAAA/4iN1/8+QGK0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeTU3VP8AAADgAAAAPAAAAAAAAAAAAAAAHgAAAMITEx7/LC1GtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGwAAACuAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAgwAAAKQAAAAAAAAAAAAAAAAAAAAA8D8AAPABAADgAQAA4AEAAOAZAACAAQAAgAMAAIADAADABwAAwAcAAMAHAADADwAAwA8AAMAPAADDDwAAx48AAA=="
+        rel="icon" type="image/x-icon">
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
-    <link href="https://unpkg.com/tailwindcss@^1.9.0/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/eva-icons"></script>
 
-    <style>
-        .pageTransition {
-            animation: fade-in 1s;
-        }
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
 
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
+    <link rel="stylesheet" href="tailwind.css">
+    <!-- <script type="module" src="/app.js"></script>  -->
+    <!-- <link rel="stylesheet" href="css/main.css"> -->
 
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slide-in {
-            0% {
-                width: 0%;
-            }
-
-            100% {
-                width: 100%;
-            }
-        }
-
-        .pageLoading {
-            animation: 1s ease-in-out 0s 1 slide-in;
-        }
-    </style>
+    <meta name="theme-color" content="#fafafa">
 </head>
 
-<body>
-    <div class="bg-blue-700" id="page_loader" style="height: 2px;">
-        <div class="bg-white pageLoading" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        </div>
-    </div>
+<body class="">
+    <div class="progress-bar" id="progress-bar" class="bg-gray-600"></div>
+
     <%= navbar %>
-    <main class="bg-background-base border-solid border-2 border-red-600">
+    <div id="filtersbar_container" class=""></div>
+
+    <!-- <main>
+        <div id="page_container" class="container pageEntry dbg" style="min-height: 500px">
+            <div id="error_flash" class="notification is-danger is-hidden">
+            </div>
+            <article> Loading....</article>
+        </div>
+    </main> -->
+    <main class="bg-gray-50">
+
+        <!-- Error Flash -->
+        <div id="flashbar_container">
+        </div>
 
         <!-- Two columns -->
-        <div class="mx-16 flex border-solid border-2 border-red-600">
+        <div class="mx-16 flex">
 
-            <!-- POsts column -->
+            <!-- Content Container Column -->
+            <div id="pagecontent_container" class="w-3/4 my-8 grid grid-cols-3 lg:grid-cols-2 gap-4">
+                <%= page %> 
+            </div>
 
-            <div class="w-3/4 pt-4 grid grid-cols-2 gap-4 border-solid border-2 border-red-600">
-                <%= page %>
-             </div>
-            <div class="w-1/4 flex-col py-4 pl-4 space-y-4 hidden lg:block">
+            <!-- Lists Container Column -->
+            <div id="sidebar_container" class="w-1/4 flex-col py-4 pl-4 space-y-4">
                 <%- if sidebar -%>
                 <%= sidebar %>
                 <%- end -%>
             </div>
+
         </div>
+
+
     </main>
 
+    <div id="footer_container"></div>
+
     <script>
-        eva.replace()
+        <!-- eva.replace() -->
     </script>
 </body>
 
