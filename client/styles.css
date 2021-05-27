@@ -21,7 +21,7 @@
  }
 
  /* Fade in animation for new pages */
-.pageEntry {animation:fade-in 1s;}
+.pageEntry {animation:fade-in 0.8s;}
 
 @keyframes fade-in {
     from {opacity:0;}

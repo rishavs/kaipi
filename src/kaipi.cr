@@ -4,12 +4,11 @@ require "pg"
 require "http/server"
 require "ecr"
 
-require "./handlers.cr"
-require "./views/*"
+require "./**"
 # require "./errors.cr"
 # require "./models.cr"
 # require "./actions/*"
-require "./routes.cr"
+
 
 
 module Kaipi
@@ -35,11 +34,12 @@ module Kaipi
         HTTP::CompressHandler.new,
     ]) do |ctx|
         puts "------------------------------------------------"
+        # pp ctx.request
         pp! url_parts = ctx.request.path.split('/', limit: 4, remove_empty: true)
 
-        pp! url_resource =     url_parts[0]?
-        pp! url_identifier =   url_parts[1]?
-        pp! url_verb =         url_parts[2]?
+        url_resource =     url_parts[0]?
+        url_identifier =   url_parts[1]?
+        url_verb =         url_parts[2]?
 
         case {ctx.request.method, url_resource, url_identifier, url_verb}
 
@@ -58,28 +58,47 @@ module Kaipi
         # Web Routes
         # -----------------------------------------
         when {"GET", "about", nil, nil}
-            navbar = Navbar.render()
-            sidebar = Sidebar.render()
+            navbar = navbar_render()
+            sidebar = sidebar_render()
             errorbar = nil
-            page = About.render(ctx)
-            view = Layout.render(navbar, page, sidebar)
+            page = about_page_render()
+            view = layout_render(navbar, sidebar, page)
+            ctx.response.print view
+
+        when {"GET", "u", "me", "signup"}
+            navbar = navbar_render()
+            sidebar = sidebar_render()
+            errorbar = nil
+            page = signup_page_render()
+            view = layout_render(navbar, sidebar, page)
+            ctx.response.print view
+        when {"POST", "u", "me", "signup_user"}
+            post_signup_user(ctx)
+            # ctx.response.print "signedup"
+
+        when {"GET", "u", "me", "signin"}
+            navbar = navbar_render()
+            sidebar = sidebar_render()
+            errorbar = nil
+            page = signin_page_render()
+            view = layout_render(navbar, sidebar, page)
             ctx.response.print view
 
         # Catch-all routes    
         when {"GET", nil, nil, nil}
-            navbar = Navbar.render()
-            sidebar = Sidebar.render()
+            navbar = navbar_render()
+            sidebar = sidebar_render()
             errorbar = nil
-            page = Home.render(ctx)
-            view = Layout.render(navbar, page, sidebar)
+            page = home_page_render()
+            view = layout_render(navbar, sidebar, page)
             ctx.response.print view
 
         else
-            navbar = Navbar.render()
-            sidebar = Sidebar.render()
+            navbar = navbar_render()
+            sidebar = sidebar_render()
             errorbar = nil
-            page = Error.render(404)
-            view = Layout.render(navbar, page, sidebar)
+            page = error_page_render(404)
+            view = layout_render(navbar, sidebar, page)
             ctx.response.print view
         end
 
