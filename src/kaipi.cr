@@ -3,10 +3,13 @@ require "db"
 require "pg"
 require "http/server"
 require "ecr"
+require "crypto/bcrypt/password"
 
+require "./models.cr"
+require "./handlers.cr"
 require "./**"
 # require "./errors.cr"
-# require "./models.cr"
+
 # require "./actions/*"
 
 
@@ -21,10 +24,10 @@ module Kaipi
     Dotenv.load
     puts "Initializing Database..."
 
-    # DATA = DB.open ENV["DATABASE_URL"] 
+    DATA = DB.open ENV["DATABASE_URL"] 
     
-    # cnn_time = DATA.scalar "SELECT NOW()"
-    # puts "Connected to DB at: #{cnn_time}"
+    cnn_time = DATA.scalar "SELECT NOW()"
+    Log.info{"Connected to DB at: #{cnn_time}"}
 
     server = HTTP::Server.new([
         APIvsWebHandler.new,
@@ -35,7 +38,7 @@ module Kaipi
     ]) do |ctx|
         puts "------------------------------------------------"
         # pp ctx.request
-        pp! url_parts = ctx.request.path.split('/', limit: 4, remove_empty: true)
+        url_parts = ctx.request.path.split('/', limit: 4, remove_empty: true)
 
         url_resource =     url_parts[0]?
         url_identifier =   url_parts[1]?
@@ -73,8 +76,15 @@ module Kaipi
             view = layout_render(navbar, sidebar, page)
             ctx.response.print view
         when {"POST", "u", "me", "signup_user"}
-            post_signup_user(ctx)
-            # ctx.response.print "signedup"
+            pp data = post_signup_user(ctx)
+            
+            if data["status"] == "error"
+                ctx.response.print data
+            else
+                ctx.response.headers.add "Location", "/about"
+                ctx.response.status_code = 302
+                ctx.response.print "signedup"
+            end
 
         when {"GET", "u", "me", "signin"}
             navbar = navbar_render()
@@ -105,7 +115,7 @@ module Kaipi
     end
 
     address = server.bind_tcp SERVERPORT
-    puts "Server listening on http://#{address}"
+    Log.info { "Server started listening on http://#{address}" }
     puts "------------------------------------------------"
     server.listen
 end
