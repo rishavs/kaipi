@@ -39,10 +39,12 @@ module Kaipi
         puts "------------------------------------------------"
         # pp ctx.request
         url_parts = ctx.request.path.split('/', limit: 4, remove_empty: true)
-
         url_resource =     url_parts[0]?
         url_identifier =   url_parts[1]?
         url_verb =         url_parts[2]?
+
+# All routes should support 3 types of query params - error, info and success to feed into the error, info and success bars.
+# Some routes will also support other query params like sortedby
 
         case {ctx.request.method, url_resource, url_identifier, url_verb}
 
@@ -87,12 +89,28 @@ module Kaipi
             end
 
         when {"GET", "u", "me", "signin"}
+            pp! params = ctx.request.query_params
             navbar = navbar_render()
             sidebar = sidebar_render()
-            errorbar = nil
+            errorbar = params["error"].not_nil! ? params["error"] : nil
             page = signin_page_render()
             view = layout_render(navbar, sidebar, page)
             ctx.response.print view
+        when {"POST", "u", "me", "signin_user"}
+            pp result = post_signin_user(ctx)
+
+            if result["status"] == "error"
+                ctx.response.headers.add "Location", "/u/me/signin"
+                ctx.response.status_code = 302
+            else
+                usercookie = HTTP::Cookie.new("usertoken", result["data"]["sessionid"].to_s, "/", Time.utc + 24.hours)
+                usercookie.http_only = true
+                usercookie.domain = SERVERHOST
+                usercookie.secure = true
+                # usercookie.samesite = HTTP::Cookie::SameSite.new(1)
+                ctx.response.headers.add "Location", "/about"
+                ctx.response.status_code = 302
+            end
 
         # Catch-all routes    
         when {"GET", nil, nil, nil}
@@ -114,7 +132,7 @@ module Kaipi
 
     end
 
-    address = server.bind_tcp SERVERPORT
+    address = server.bind_tcp SERVERHOST, SERVERPORT
     Log.info { "Server started listening on http://#{address}" }
     puts "------------------------------------------------"
     server.listen

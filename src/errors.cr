@@ -2,9 +2,9 @@ module Kaipi
 
     class BadRequestError < Exception
     end
-    class UnAuthenticatedError < Exception
+    class AuthenticationError < Exception
     end
-    class UnAuthorizedError < Exception
+    class AuthorizationError < Exception
     end
     class ForbiddenError < Exception
     end
