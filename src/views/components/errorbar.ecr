@@ -1,0 +1,14 @@
+<div id="errorbar" class="flex justify-between h-14 mx-16 px-16 rounded-b-md bg-danger-light items-center ">
+    <p class="text-gray-200 text-l"> 
+        <span class="animate-pulse">💀</span> 
+        <span id="errorbar_text"><%= errormsg %></span>
+    </p>
+    <button id="hide_errorbar_btn" class="text-gray-200 px-2 py-1 border rounded-md">✕</button>
+</div>
+
+
+<script>
+    document.getElementById("hide_errorbar_btn").addEventListener('click', async (e) => {
+        document.getElementById("errorbar").classList.toggle('hidden')
+    })
+</script>

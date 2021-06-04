@@ -30,15 +30,17 @@
 
     <main class="bg-gray-50">
 
-        <!-- Error Flash -->
+        <!-- Flash -->
         <div id="flashbar_container">
+            <%= errorbar %> 
+            <%= successbar %> 
         </div>
 
         <!-- Two columns -->
         <div class="mx-16 flex">
 
             <!-- Content Container Column -->
-            <div id="pagecontent_container" class="w-3/4 my-8 grid grid-cols-3 lg:grid-cols-2 gap-4">
+            <div id="pagecontent_container" class="pageEntry w-3/4 my-8 grid grid-cols-3 lg:grid-cols-2 gap-4">
                 <%= page %> 
             </div>
 

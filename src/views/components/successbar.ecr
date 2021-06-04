@@ -1,0 +1,13 @@
+<div id="flashbar" class="flex justify-between h-14 mx-16 px-16 rounded-b-md bg-green-400 items-center ">
+    <p class="text-gray-200 text-l"> 
+        <span class="animate-pulse">💀</span> 
+        <span id="flashbar_text"><%= successmsg %></span>
+    </p>
+    <button id="hide_flash_btn" class="text-gray-200 px-2 py-1 border rounded-md">✕</button>
+</div>
+
+<script>
+    document.getElementById("hide_flash_btn").addEventListener('click', async (e) => {
+        document.getElementById("flashbar").classList.toggle('hidden')
+    })
+</script>

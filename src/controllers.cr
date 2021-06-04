@@ -3,53 +3,16 @@ module Kaipi
     # -----------------------------------------
     # Layout Controller
     # -----------------------------------------
-    def self.layout_render (navbar : String, sidebar : String | Nil, page : String )
-        ECR.render "src/views/layout.ecr"
-    end
-
-    # -----------------------------------------
-    # Component Controllers
-    # -----------------------------------------
-    def self.navbar_render ()
-        data = nil
-        ECR.render "src/views/components/navbar.ecr"
-    end
-
-    # def self.errorbar_render ()
-    #     ECR.render "src/views/components/navbar.ecr"
-    # end
-
-    def self.sidebar_render ()
-        data = nil
-        ECR.render "src/views/components/sidebar.ecr"
-    end
-
-    # -----------------------------------------
-    # Page Controllers
-    # -----------------------------------------
-    def self.home_page_render ()
-        data = nil
-        ECR.render "src/views/pages/home.ecr"
-    end
-
-    def self.about_page_render ()
-        data = nil
-        ECR.render "src/views/pages/about.ecr"
-    end
-
-    def self.signin_page_render ()
-        data = nil
-        ECR.render "src/views/pages/signin.ecr"
-    end
-
-    def self.signup_page_render ()
-        data = nil
-        ECR.render "src/views/pages/signup.ecr"
-    end
-
-    def self.error_page_render (code : Int)
-        data = code
-        ECR.render "src/views/pages/error.ecr"
+    def self.view_render (ctx : HTTP::Server::Context, pagestr : String)
+        pp! params  = ctx.request.query_params
+        errormsg    = params["error"]?.presence 
+        errorbar    = errormsg ? ECR.render("src/views/components/errorbar.ecr") : nil
+        successmsg  = params["success"]?.presence 
+        successbar  = successmsg ? ECR.render("src/views/components/successbar.ecr") : nil
+        navbar      = ECR.render "src/views/components/navbar.ecr"
+        sidebar     = ECR.render "src/views/components/sidebar.ecr"
+        page        = pagestr
+        view        = ECR.render "src/views/layout.ecr"
     end
 
     # -----------------------------------------

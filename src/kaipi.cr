@@ -25,7 +25,6 @@ module Kaipi
     puts "Initializing Database..."
 
     DATA = DB.open ENV["DATABASE_URL"] 
-    
     cnn_time = DATA.scalar "SELECT NOW()"
     Log.info{"Connected to DB at: #{cnn_time}"}
 
@@ -38,13 +37,18 @@ module Kaipi
     ]) do |ctx|
         puts "------------------------------------------------"
         # pp ctx.request
-        url_parts = ctx.request.path.split('/', limit: 4, remove_empty: true)
-        url_resource =     url_parts[0]?
-        url_identifier =   url_parts[1]?
-        url_verb =         url_parts[2]?
 
-# All routes should support 3 types of query params - error, info and success to feed into the error, info and success bars.
-# Some routes will also support other query params like sortedby
+        
+        # -----------------------------------------
+        # Routing
+        # -----------------------------------------
+        url_parts       = ctx.request.path.split('/', limit: 4, remove_empty: true)
+        url_resource    = url_parts[0]?
+        url_identifier  = url_parts[1]?
+        url_verb        = url_parts[2]?
+
+        # All routes should support 3 types of query params - error, info and success to feed into the error, info and success bars.
+        # Some routes will also support other query params like sortedby
 
         case {ctx.request.method, url_resource, url_identifier, url_verb}
 
@@ -63,70 +67,62 @@ module Kaipi
         # Web Routes
         # -----------------------------------------
         when {"GET", "about", nil, nil}
-            navbar = navbar_render()
-            sidebar = sidebar_render()
-            errorbar = nil
-            page = about_page_render()
-            view = layout_render(navbar, sidebar, page)
+            data = nil
+            page = ECR.render "src/views/pages/about.ecr"
+            view = view_render(ctx, page)
             ctx.response.print view
 
         when {"GET", "u", "me", "signup"}
-            navbar = navbar_render()
-            sidebar = sidebar_render()
-            errorbar = nil
-            page = signup_page_render()
-            view = layout_render(navbar, sidebar, page)
+            data = nil
+            page = ECR.render "src/views/pages/signup.ecr"
+            view = view_render(ctx, page)
             ctx.response.print view
         when {"POST", "u", "me", "signup_user"}
-            pp data = post_signup_user(ctx)
+            pp result = post_signup_user(ctx)
             
-            if data["status"] == "error"
-                ctx.response.print data
-            else
-                ctx.response.headers.add "Location", "/about"
+            if result["status"] == "error"
+                ctx.response.headers.add "Location", "/u/me/signup?" + URI::Params.encode({"error" => result["message"].to_s})
                 ctx.response.status_code = 302
-                ctx.response.print "signedup"
+                ctx.response.close
+            else
+                ctx.response.headers.add "Location", "/home?"+ URI::Params.encode({"success" => result["message"].to_s})
+                ctx.response.status_code = 302
+                ctx.response.close
             end
 
         when {"GET", "u", "me", "signin"}
-            pp! params = ctx.request.query_params
-            navbar = navbar_render()
-            sidebar = sidebar_render()
-            errorbar = params["error"].not_nil! ? params["error"] : nil
-            page = signin_page_render()
-            view = layout_render(navbar, sidebar, page)
+            data = nil
+            page = ECR.render "src/views/pages/signin.ecr"
+            view = view_render(ctx, page)
             ctx.response.print view
         when {"POST", "u", "me", "signin_user"}
             pp result = post_signin_user(ctx)
-
+            
             if result["status"] == "error"
-                ctx.response.headers.add "Location", "/u/me/signin"
+                ctx.response.headers.add "Location", "/u/me/signin?" + URI::Params.encode({"error" => result["message"].to_s})
                 ctx.response.status_code = 302
+                ctx.response.close
             else
                 usercookie = HTTP::Cookie.new("usertoken", result["data"]["sessionid"].to_s, "/", Time.utc + 24.hours)
                 usercookie.http_only = true
                 usercookie.domain = SERVERHOST
                 usercookie.secure = true
                 # usercookie.samesite = HTTP::Cookie::SameSite.new(1)
-                ctx.response.headers.add "Location", "/about"
+                ctx.response.headers.add "Location", "/home?"+ URI::Params.encode({"success" => result["message"].to_s})
                 ctx.response.status_code = 302
+                ctx.response.close
             end
 
         # Catch-all routes    
         when {"GET", nil, nil, nil}
-            navbar = navbar_render()
-            sidebar = sidebar_render()
-            errorbar = nil
-            page = home_page_render()
-            view = layout_render(navbar, sidebar, page)
+            data = nil
+            page = ECR.render "src/views/pages/home.ecr"
+            view = view_render(ctx, page)
             ctx.response.print view
-
         else
-            navbar = navbar_render()
-            sidebar = sidebar_render()
-            errorbar = nil
-            page = error_page_render(404)
-            view = layout_render(navbar, sidebar, page)
+            data = 404
+            page = ECR.render "src/views/pages/error.ecr"
+            view = view_render(ctx, page)
             ctx.response.print view
         end
 
