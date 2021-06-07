@@ -105,9 +105,10 @@ module Kaipi
             else
                 usercookie = HTTP::Cookie.new("usertoken", result["data"]["sessionid"].to_s, "/", Time.utc + 24.hours)
                 usercookie.http_only = true
-                usercookie.domain = SERVERHOST
-                usercookie.secure = true
+                # usercookie.domain = SERVERHOST
+                # usercookie.secure = true
                 # usercookie.samesite = HTTP::Cookie::SameSite.new(1)
+                ctx.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header
                 ctx.response.headers.add "Location", "/home?"+ URI::Params.encode({"success" => result["message"].to_s})
                 ctx.response.status_code = 302
                 ctx.response.close

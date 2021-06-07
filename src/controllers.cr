@@ -166,7 +166,7 @@ module Kaipi
         else
             return {
                 "status"    => "success",
-                "message"   => "The user was sucessfully logged in",
+                "message"   => "You have been sucessfully logged in",
                 "data"      => {
                     "auth_type"     => "basic",
                     "sessionid"     => sessionid,
